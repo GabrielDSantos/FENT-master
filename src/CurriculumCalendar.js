@@ -1677,6 +1677,7 @@ const themes = [
   },
 ];
 
+
 export function CurriculumCalendar() {
   const [studyDates, setStudyDates] = useState([]);
   const [selectedThemes, setSelectedThemes] = useState([]);
@@ -1684,23 +1685,20 @@ export function CurriculumCalendar() {
   const [hoursPerDay, setHoursPerDay] = useState(0.5);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const rightPanelRef = useRef(); 
+  const rightPanelRef = useRef();
+
+  const handleThemeSelection = (themeName) => {
+    if (selectedThemes.includes(themeName)) {
+      setSelectedThemes(selectedThemes.filter((theme) => theme !== themeName));
+    } else {
+      setSelectedThemes([...selectedThemes, themeName]);
+    }
+  };
 
   const handleDownloadPdf = async () => {
-    // Certifica-se de que a página foi renderizada completamente antes de gerar o PDF
-    await new Promise((resolve) => setTimeout(resolve, 300)); // Aguarda 100ms para garantir que o conteúdo esteja completamente visível
+    await new Promise((resolve) => setTimeout(resolve, 300));
 
-    const element = document.querySelector(".right-panel");
-    if (element) {
-      const opt = {
-        margin: 0.5,
-        filename: 'CalendarioCurricular.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 2, useCORS: true }, // Habilita o uso de CORS para imagens externas
-        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
-      };
-      
-      const element = rightPanelRef.current;
+    const element = rightPanelRef.current;
     if (element) {
       const opt = {
         margin: 0.5,
@@ -1710,8 +1708,8 @@ export function CurriculumCalendar() {
           scale: 2,
           useCORS: true,
           logging: true,
-          windowWidth: element.scrollWidth, // Captura a largura real do elemento
-          windowHeight: element.scrollHeight // Captura a altura real do elemento
+          windowWidth: element.scrollWidth,
+          windowHeight: element.scrollHeight
         },
         jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
       };
@@ -1723,14 +1721,6 @@ export function CurriculumCalendar() {
         .catch((error) => console.error("Erro ao gerar PDF: ", error));
     } else {
       console.error("Elemento não encontrado para gerar o PDF");
-    }}
-  };
-
-  const handleThemeSelection = (themeName) => {
-    if (selectedThemes.includes(themeName)) {
-      setSelectedThemes(selectedThemes.filter((theme) => theme !== themeName));
-    } else {
-      setSelectedThemes([...selectedThemes, themeName]);
     }
   };
 
@@ -1740,7 +1730,6 @@ export function CurriculumCalendar() {
       return;
     }
 
-    // Calcula o total de segundos de todas as aulas selecionadas
     const totalSeconds = selectedThemes.reduce((acc, themeName) => {
       const theme = themes.find((t) => t.name === themeName);
       if (theme) {
@@ -1753,7 +1742,7 @@ export function CurriculumCalendar() {
                 const [hours, minutes, seconds] = lesson.duration
                   .split(":")
                   .map(Number);
-                return lessonAcc + hours * 3600 + minutes * 60 + (seconds || 0);
+                return lessonAcc + (hours || 0) * 3600 + (minutes || 0) * 60 + (seconds || 0);
               }, 0)
             );
           }, 0)
@@ -1762,7 +1751,6 @@ export function CurriculumCalendar() {
       return acc;
     }, 0);
 
-    // Certifica-se de que temos um valor positivo para totalHoursPerWeek
     const totalHours = totalSeconds / 3600;
     const totalHoursPerWeek = daysPerWeek.length * hoursPerDay;
 
@@ -1771,16 +1759,10 @@ export function CurriculumCalendar() {
       return;
     }
 
-    // Calcula o número total de horas necessárias e quantos dias efetivos de estudo serão necessários
-    const totalDaysNeeded = Math.ceil(totalHours / hoursPerDay);
-
-    // Calcula a data de término a partir da data de início
     const start = new Date(startDate);
     let studyDatesArray = [];
     let currentDate = new Date(start);
-    let daysCounted = 0;
 
-    // Mapeamento dos dias da semana para garantir correspondência consistente
     const dayMapping = {
       segunda: "segunda-feira",
       terça: "terça-feira",
@@ -1791,34 +1773,73 @@ export function CurriculumCalendar() {
       domingo: "domingo",
     };
 
-    // Normaliza os dias da semana para comparação
     const normalizedDaysPerWeek = daysPerWeek.map(
       (day) => dayMapping[day.toLowerCase()]
     );
 
-    // Calcula todas as datas de estudo até que todos os dias necessários sejam contados
-    while (daysCounted < totalDaysNeeded) {
-      // Obtém o nome do dia da semana no mesmo formato dos dias selecionados
+    if (!window.completedLessons) window.completedLessons = new Set();
+    let completedLessons = window.completedLessons;
+    let continuedLessons = new Set();
+    let totalLessonTimeRemaining = totalSeconds;
+
+    while (totalLessonTimeRemaining > 0) {
       const dayOfWeek = currentDate
         .toLocaleDateString("pt-BR", { weekday: "long" })
         .toLowerCase();
 
-      // Verifica se o dia da semana atual está nos dias selecionados
       if (normalizedDaysPerWeek.includes(dayOfWeek)) {
-        studyDatesArray.push(
-          `${dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1)} - ${String(
+        let lessonsForDay = [];
+        let availableTime = hoursPerDay * 3600;
+
+        for (const themeName of selectedThemes) {
+          const theme = themes.find((t) => t.name === themeName);
+          if (theme) {
+            for (const course of theme.courses) {
+              for (const lesson of course.lessons) {
+                const [hours, minutes, seconds] = lesson.duration
+                  .split(":")
+                  .map(Number);
+                let lessonDuration = (hours || 0) * 3600 + (minutes || 0) * 60 + (seconds || 0);
+                let lessonName = lesson.name;
+
+                if (completedLessons.has(lessonName)) {
+                  continue;
+                }
+
+                if (availableTime >= lessonDuration) {
+                  lessonsForDay.push(lessonName);
+                  availableTime -= lessonDuration;
+                  totalLessonTimeRemaining -= lessonDuration;
+                  completedLessons.add(lessonName);
+                } else if (availableTime > 0) {
+                  if (!continuedLessons.has(lessonName)) {
+                    lessonsForDay.push(lessonName);
+                    continuedLessons.add(lessonName);
+                  } else {
+                    lessonsForDay.push(`${lessonName} (continuação)`);
+                  }
+                  totalLessonTimeRemaining -= availableTime;
+                  lessonDuration -= availableTime;
+                  availableTime = 0;
+                }
+              }
+            }
+          }
+        }
+
+        studyDatesArray.push({
+          date: `${dayOfWeek.charAt(0).toUpperCase() + dayOfWeek.slice(1)} - ${String(
             currentDate.getDate()
           ).padStart(2, "0")}/${String(currentDate.getMonth() + 1).padStart(
             2,
             "0"
-          )}/${currentDate.getFullYear()}`
-        );
-        daysCounted++;
+          )}/${currentDate.getFullYear()}`,
+          lessons: lessonsForDay,
+        });
       }
       currentDate.setDate(currentDate.getDate() + 1);
     }
 
-    // Formata a data de término no formato DD/MM/YYYY com base no último dia contado
     const formattedDate = `${String(currentDate.getDate() - 1).padStart(
       2,
       "0"
@@ -1828,9 +1849,11 @@ export function CurriculumCalendar() {
     )}/${currentDate.getFullYear()}`;
     setEndDate(formattedDate);
     setStudyDates(studyDatesArray);
+    window.completedLessons = completedLessons;
 
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
 
 
   return (
@@ -1937,8 +1960,6 @@ export function CurriculumCalendar() {
         </button>
       </div>
 
-      <div className="right-panel" style={{ marginTop: 20 }}></div>
-
       <div
         className="right-panel"
         ref={rightPanelRef}
@@ -2012,7 +2033,7 @@ export function CurriculumCalendar() {
                   }}
                 >
                   {studyDates.length > 0 ? (
-                    studyDates.map((date, index) => (
+                    studyDates.map((dateObj, index) => (
                       <div
                         key={index}
                         className="study-date-box"
@@ -2024,7 +2045,19 @@ export function CurriculumCalendar() {
                           textAlign: "center",
                         }}
                       >
-                        {date}
+                        <div>{dateObj.date}</div>
+                        <div>
+                          <b>Aulas:</b>
+                          <ul style={{ paddingLeft: "20px", textAlign: "left" }}>
+                            {dateObj.lessons.length > 0 ? (
+                              dateObj.lessons.map((lesson, lessonIndex) => (
+                                <li key={lessonIndex}>{lesson}</li>
+                              ))
+                            ) : (
+                              <li>Nenhuma aula disponível</li>
+                            )}
+                          </ul>
+                        </div>
                       </div>
                     ))
                   ) : (
