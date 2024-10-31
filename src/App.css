@@ -87,3 +87,15 @@ body {
   border: 1px solid #ffecb3;
   margin-top: 20px;
 }
+.study-date-box {
+  background-color: rgb(32, 65, 152);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  display: inline-block; /* Permite que o tamanho da caixa se ajuste ao conteúdo */
+  width: auto; /* Ajusta automaticamente o tamanho da caixa ao conteúdo */
+  max-width: 100%; /* Para evitar que a caixa ultrapasse os limites do contêiner pai */
+  margin: 10px; /* Espaço entre as caixas */
+  box-sizing: border-box; /* Inclui padding e bordas no tamanho total da caixa */
+}
