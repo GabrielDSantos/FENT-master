@@ -4,6 +4,8 @@ import "./index.css";
 import imagem from "./logo-fent-2.png";
 import html2pdf from "html2pdf.js";
 import { useRef } from "react";
+import html2pdf from "html2pdf.js";
+import { useRef } from "react";
 
 const themes = [
   {
@@ -322,6 +324,36 @@ const themes = [
   {
     name: "Contabilidade",
     courses: [
+      {
+        name: "Jornada 12 - Contabilidade",
+        lessons: [
+          {
+            name: "Aula 01: Contabilidade",
+            duration: "01:00:23",
+          },
+          {
+            name: "Aula 02: Contabilidade na Prática",
+            duration: "00:15:36",
+          },
+          {
+            name: "Aula 03: Contabilidade - Contas de resultado",
+            duration: "00:23:04",
+          },
+          {
+            name: "Aula 04: Exercícios com resultado",
+            duration: "00:24:34",
+          },
+          {
+            name: "Aula 05: Estrutura conceitual",
+            duration: "00:28:12",
+          },
+          {
+            name: "Aula 06: Como auditar DRE - Fabiana Matos",
+            duration: "03:27:29",
+          },
+        ],
+      },
+    ],
       {
         name: "Jornada 12 - Contabilidade",
         lessons: [
@@ -918,6 +950,69 @@ const themes = [
     ],
   },
   {
+    name: "PIS e COFINS",
+    courses: [
+      {
+        name: "Jornada 4 - Imersão em tributos indiretos",
+        lessons: [
+          {
+            name: "Aula 3: IPI, PIS E COFINS",
+            duration: "02:28:28",
+          },
+          {
+            name: "Aula 8 - Bônus - Masterclass PIS e COFINS",
+            duration: "01:14:03",
+          },
+        ],
+      },
+      {
+        name: "Jornada 7 - Recuperação de Créditos Tributários na Prática para empresas do Simples Nacional, Lucro Real e Lucro Presumido",
+        lessons: [
+          {
+            name: "Aula 09 - Masterclass PIS e COFINS",
+            duration: "00:48:19",
+          },
+          {
+            name: "Aula 29 - LR na prática - PIS e COFINS: Créditos Básicos",
+            duration: "00:23:03",
+          },
+          {
+            name: "Aula 30 - LR na prática - PIS e COFINS: Vale-Transporte",
+            duration: "00:11:56",
+          },
+          {
+            name: "Aula 31 - LR na prática - PIS e COFINS: EPI",
+            duration: "00:11:55",
+          },
+          {
+            name: "Aula 32 - LR na prática - PIS e COFINS: Insumos",
+            duration: "00:09:56",
+          },
+          {
+            name: "Aula 33 - LR na prática - PIS e COFINS: Ativo Imobilizado",
+            duration: "00:06:41",
+          },
+          {
+            name: "Aula 34 - LR na prática - PIS e COFINS: Aluguel",
+            duration: "00:05:22",
+          },
+          {
+            name: "Aula 35 - LR na prática - PIS e COFINS: Frete",
+            duration: "00:06:43",
+          },
+          {
+            name: "Aula 36 - LR na prática - PIS e COFINS: Diesel",
+            duration: "00:32:59",
+          },
+          {
+            name: "Aula 45 - Exclusão do ICMS da Base de PIS e COFINS",
+            duration: "00:54:48",
+          },
+        ],
+      },
+    ],
+  },
+  {
     name: "IPI",
     courses: [
       {
@@ -1034,6 +1129,7 @@ const themes = [
       },
     ],
   },
+
 
   {
     name: "Tributarista Iniciante",
@@ -1587,6 +1683,168 @@ const themes = [
         ],
       },
     ],
+      {
+        name: "Jornada 14 - FENTSKILLS",
+        lessons: [
+          {
+            name: "Comece aqui",
+            duration: "00:10:14",
+          },
+          {
+            name: "Aula 01: Lógica para criar qualquer frase em inglês - Sujeito",
+            duration: "00:06:24",
+          },
+          {
+            name: "Aula 02: Lógica para criar qualquer frase em inglês - Verbo",
+            duration: "00:08:27",
+          },
+          {
+            name: "Aula 03: Lógica para criar qualquer frase em inglês - Complemento",
+            duration: "00:08:05",
+          },
+          {
+            name: "Aula 04: Lógica para criar qualquer frase em inglês - Questions",
+            duration: "00:08:15",
+          },
+          {
+            name: "Aula 05: Lógica para criar qualquer frase em inglês - Negatives",
+            duration: "00:06:31",
+          },
+          {
+            name: "Aula 06: Lógica para criar qualquer frase em inglês - Auxiliares em afirmações",
+            duration: "00:04:42",
+          },
+          {
+            name: "Aula 07: Lógica para criar qualquer frase em inglês - Revisão",
+            duration: "00:05:17",
+          },
+          {
+            name: "Aula 01: Let's get to work - Verb to be Affirmative",
+            duration: "00:11:10",
+          },
+          {
+            name: "Aula 02: Let's get to work - Verb to be Negative",
+            duration: "00:12:48",
+          },
+          {
+            name: "Aula 03: Let's get to work - Adjectives",
+            duration: "00:07:34",
+          },
+          {
+            name: "Aula 04: Let's get to work - Possessive Adjectives",
+            duration: "00:09:43",
+          },
+          {
+            name: "Aula 05: Let's get to work - Interrogative Pronouns",
+            duration: "00:11:21",
+          },
+          {
+            name: "Aula 06: Let's get to work - Indefinite Articles",
+            duration: "00:07:39",
+          },
+          {
+            name: "Aula 07: Let's get to work - Definite Articles",
+            duration: "00:03:35",
+          },
+          {
+            name: "Aula 01: Let's talk about the present - There Be",
+            duration: "00:08:57",
+          },
+          {
+            name: "Aula 02: Let's talk about the present - Present Simple Affirmative",
+            duration: "00:12:57",
+          },
+          {
+            name: "Aula 03: Let's talk about the present - Present Simple Interrogative",
+            duration: "00:09:04",
+          },
+          {
+            name: "Aula 04: Let's talk about the present - Present Simple Negative",
+            duration: "00:06:38",
+          },
+          {
+            name: "Aula 05: Let's talk about the present - Verb to have",
+            duration: "00:14:46",
+          },
+          {
+            name: "Aula 06: Let's talk about the present - Object Pronouns",
+            duration: "00:08:30",
+          },
+          {
+            name: "Aula 07: Let's talk about the present - Present Progressive Affirmative",
+            duration: "00:05:05",
+          },
+          {
+            name: "Aula 08: Let's talk about the present - Present Progressive Interrogative",
+            duration: "00:05:10",
+          },
+          {
+            name: "Aula 09: Let's talk about the present - Present Progressive Negative",
+            duration: "00:08:51",
+          },
+          {
+            name: "Aula 01: Back to the future - Possessive Pronouns",
+            duration: "00:11:38",
+          },
+          {
+            name: "Aula 02: Back to the future - Past Simple Affirmative",
+            duration: "00:13:43",
+          },
+          {
+            name: "Aula 03: Back to the future - Past Simple Interrogative",
+            duration: "00:07:36",
+          },
+          {
+            name: "Aula 04: Back to the future - Past Simple Negative",
+            duration: "00:06:38",
+          },
+          {
+            name: "Aula 05: Back to the future - Future Simple Aff, Neg. Int",
+            duration: "00:07:46",
+          },
+          {
+            name: "Aula 06: Back to the future - Future Simple Aff, Neg. Int",
+            duration: "00:16:38",
+          },
+          {
+            name: "Aula 07: Back to the future - Past Continuous",
+            duration: "00:09:05",
+          },
+          {
+            name: "Aula 08: Back to the future - Future Cont_prog",
+            duration: "00:06:45",
+          },
+          {
+            name: "Aula 01: Verbos Modais 1",
+            duration: "00:13:55",
+          },
+          {
+            name: "Aula 02: Verbos Modais 2",
+            duration: "00:06:27",
+          },
+          {
+            name: "Aula 03: Verbos Modais 3",
+            duration: "00:07:37",
+          },
+          {
+            name: "Aula 04: Verbos Modais 4",
+            duration: "00:07:19",
+          },
+          {
+            name: "Aula 05: Verbos Modais 5",
+            duration: "00:03:20",
+          },
+          {
+            name: "Aula 06: Verbos Modais 6",
+            duration: "00:02:33",
+          },
+          {
+            name: "Aula 07: Verbos Modais 7",
+            duration: "00:05:29",
+          },
+        ],
+      },
+    ],
   },
   {
     name: "Comece aqui",
@@ -1601,7 +1859,20 @@ const themes = [
         ],
       },
     ],
+    name: "Comece aqui",
+    courses: [
+      {
+        name: "Jornada 13 - Encontros Ao Vivo",
+        lessons: [
+          {
+            name: "Aula 01: FIRST CALL",
+            duration: "01:39:48",
+          },
+        ],
+      },
+    ],
   },
+
 
   {
     name: "Contencioso Judicial",
@@ -1676,6 +1947,7 @@ const themes = [
     ],
   },
 ];
+
 
 export function CurriculumCalendar() {
   const [studyDates, setStudyDates] = useState([]);
@@ -1952,6 +2224,8 @@ export function CurriculumCalendar() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+
+
   return (
     <div className="curriculum-calendar">
       <div className="left-panel">
@@ -2119,6 +2393,7 @@ export function CurriculumCalendar() {
                   backgroundColor: "#f9f9f9",
                   borderRadius: "8px",
                   marginTop: "20px",
+                  marginTop: "20px",
                 }}
               >
                 <h3>Data estimada de término: {endDate}</h3>
@@ -2133,6 +2408,7 @@ export function CurriculumCalendar() {
                   }}
                 >
                   {studyDates.length > 0 ? (
+                    studyDates.map((dateObj, index) => (
                     studyDates.map((dateObj, index) => (
                       <div
                         key={index}
