@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import imagem from "./logo-fent-2.png";
 import html2pdf from "html2pdf.js";
-import { useRef } from "react";
+import * as XLSX from "xlsx"; // Importar a biblioteca para geração de planilhas
+import { jsPDF } from "jspdf"; // Importação para gerar PDFs
+import "jspdf-autotable";
 
 const themes = [
   {
@@ -1686,6 +1688,83 @@ export function CurriculumCalendar() {
   const [endDate, setEndDate] = useState("");
   const rightPanelRef = useRef();
   const [isEndDateCalculated, setIsEndDateCalculated] = useState(false);
+  const sortedThemes = themes.sort((a, b) => a.name.localeCompare(b.name));
+
+  const handleDownloadPdfFromData = () => {
+    if (!studyDates.length) {
+      alert("Nenhum cronograma disponível para exportação.");
+      return;
+    }
+
+    // Criar uma nova instância do jsPDF
+
+    const doc = new jsPDF({
+      orientation: "landscape", // Orientação paisagem para maior espaço, como uma planilha
+      unit: "mm",
+      format: "a4",
+    });
+
+    // Obter a largura da página para calcular a centralização
+    const pageWidth = doc.internal.pageSize.getWidth();
+
+    // Adicionar título ao PDF, centralizando-o horizontalmente
+    doc.setFontSize(16);
+    doc.text("Calendário Curricular - FENT", pageWidth / 2, 20, {
+      align: "center",
+    });
+
+    // Preparar os dados para a tabela
+    const tableColumnHeaders = ["Data", "Aulas"];
+    const tableRows = studyDates.map((entry) => [
+      entry.date,
+      entry.lessons.join(", "), // Aulas separadas por vírgula em uma única célula
+    ]);
+
+    // Adicionar a tabela ao PDF
+    doc.autoTable({
+      head: [tableColumnHeaders],
+      body: tableRows,
+      startY: 30, // Começar abaixo do título
+      theme: "grid", // Estilo da tabela que parece com planilha
+      styles: {
+        fontSize: 10,
+        cellPadding: 3,
+      },
+      headStyles: {
+        fillColor: [32, 65, 152], // Cor de fundo para o cabeçalho
+        textColor: [255, 255, 255], // Cor do texto do cabeçalho
+        halign: "center",
+      },
+      bodyStyles: {
+        halign: "left",
+        valign: "middle",
+      },
+    });
+
+    // Salvar o PDF
+    doc.save("CalendarioCurricular.pdf");
+  };
+
+  const handleDownloadSpreadsheet = () => {
+    if (!studyDates.length) {
+      alert("Nenhum cronograma disponível para exportação.");
+      return;
+    }
+
+    // Preparar os dados para a planilha
+    const data = studyDates.map((entry) => ({
+      Data: entry.date,
+      Aulas: entry.lessons.join(", "), // Aulas na mesma célula, separadas por vírgula
+    }));
+
+    // Criar uma nova planilha
+    const worksheet = XLSX.utils.json_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Cronograma");
+
+    // Exportar a planilha como um arquivo Excel
+    XLSX.writeFile(workbook, "CalendarioCurricular.xlsx");
+  };
 
   const handleThemeSelection = (themeName) => {
     if (selectedThemes.includes(themeName)) {
@@ -2047,10 +2126,11 @@ export function CurriculumCalendar() {
         >
           🕑Calcule aqui seu tempo de formação⬇
         </button>
+
         <button
           style={{ marginBottom: 20 }}
           className="download-button"
-          onClick={handleDownloadPdf}
+          onClick={handleDownloadPdfFromData}
         >
           🎓Imprima aqui o seu cronograma⬇
         </button>
