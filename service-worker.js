@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/FENT-master/precache-manifest.083f8f8eda2739ef559e56b0d3f9d8da.js"
+  "/FENT-master/precache-manifest.d6670576676472db71dddb2eb74ada3f.js"
 );
 
 self.addEventListener('message', (event) => {
