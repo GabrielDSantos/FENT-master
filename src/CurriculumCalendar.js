@@ -1708,6 +1708,7 @@ export function CurriculumCalendar() {
     const pageWidth = doc.internal.pageSize.getWidth();
 
     // Adicionar título ao PDF, centralizando-o horizontalmente
+    doc.addImage(imagem, "PNG", 10, 10, 40, 20);
     doc.setFontSize(16);
     doc.text("Calendário Curricular - FENT", pageWidth / 2, 20, {
       align: "center",
