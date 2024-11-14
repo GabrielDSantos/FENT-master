@@ -1690,6 +1690,7 @@ export function CurriculumCalendar() {
   const [isEndDateCalculated, setIsEndDateCalculated] = useState(false);
   const sortedThemes = themes.sort((a, b) => a.name.localeCompare(b.name));
 
+  
   const handleDownloadPdfFromData = () => {
     if (!studyDates.length) {
       alert("Nenhum cronograma disponível para exportação.");
@@ -2140,14 +2141,6 @@ export function CurriculumCalendar() {
       <div
         className="right-panel"
         ref={rightPanelRef}
-        style={{
-          marginTop: 20,
-          padding: "20px",
-          backgroundColor: "#fff", // Certifique-se de que o fundo é branco
-          color: "#000", // Certifique-se de que o texto é preto
-          width: "100%", // Define a largura completa para capturar corretamente
-          boxSizing: "border-box",
-        }}
       >
         {/* Conteúdo da parte direita que será baixado como PDF */}
         {selectedThemes.length > 0 && (
